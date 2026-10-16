@@ -4,7 +4,6 @@ import modelo.modeloDominio.personas.asociado.Asociado;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Clase DataAccessObject que maneja la persistencia de objetos Asociado en la base de datos.
@@ -85,8 +84,10 @@ public class DataAccessObject {
         ResultSet resultado = bd.ejecutarConsulta(query, id);
 
         AsociadoDTO aDTO = null;
-        aDTO = this.CrearDTO(resultado.getInt("id"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("dni")
-                , resultado.getString("calle"), resultado.getInt("numero"), resultado.getString("ciudad"), resultado.getString("telefono"));
+        if (resultado.next()) {
+            aDTO = this.CrearDTO(resultado.getInt("id"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("dni")
+                    , resultado.getString("calle"), resultado.getInt("numero"), resultado.getString("ciudad"), resultado.getString("telefono"));
+        }
         resultado.close();
         return aDTO;
     }
@@ -118,7 +119,9 @@ public class DataAccessObject {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public void eliminar(String dni) throws SQLException{
-        assert !Objects.equals(dni, "") : "El DNI no puede ser nulo";
+        if (dni == null || dni.isEmpty()) {
+            throw new IllegalArgumentException("El DNI no puede ser nulo ni vacio");
+        }
         String query = "DELETE FROM Asociados WHERE dni = ? ;";
 
         bd.ejecutarDelete(query, dni);
@@ -133,7 +136,7 @@ public class DataAccessObject {
      */
     public void actualizar(Asociado asociado) throws SQLException {
         assert asociado != null : "El asociado no puede ser nulo";
-        String quety = "UPDATE Asociados SET nombre = ?, apellido = ?, dni = ?, calle = ?, numero = ?, ciudad = ?, telefono = ? WHERE id = ? ;";
+        String quety = "UPDATE Asociados SET nombre = ?, apellido = ?, dni = ?, calle = ?, numero = ?, ciudad = ?, telefono = ? WHERE dni = ? ;";
         AsociadoDTO aDTO = CrearDTO(asociado);
         bd.ejecutarActualizacion(quety, aDTO);
     }

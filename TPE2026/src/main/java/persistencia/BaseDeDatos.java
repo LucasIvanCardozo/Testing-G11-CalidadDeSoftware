@@ -115,7 +115,7 @@ public class BaseDeDatos {
         stmt.setInt(5, aDTO.getNumero());
         stmt.setString(6, aDTO.getCiudad());
         stmt.setString(7, aDTO.getTelefono());
-        stmt.setInt(8, 1);
+        stmt.setString(8, aDTO.getDni());
         stmt.executeUpdate();
         stmt.close();
     }

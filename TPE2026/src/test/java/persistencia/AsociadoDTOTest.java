@@ -57,70 +57,83 @@ public class AsociadoDTOTest {
         assertEquals("El telefono asignado no se recupera", "2235551234", dto.getTelefono());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetNombre_Nulo_Clase2() {
-        dto.setNombre(null);
+        VerificacionDeExcepcion.rechazar("un nombre nulo", IllegalArgumentException.class,
+                () -> dto.setNombre(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetApellido_Nulo_Clase2() {
-        dto.setApellido(null);
+        VerificacionDeExcepcion.rechazar("un apellido nulo", IllegalArgumentException.class,
+                () -> dto.setApellido(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetDni_Nulo_Clase2() {
-        dto.setDni(null);
+        VerificacionDeExcepcion.rechazar("un dni nulo", IllegalArgumentException.class,
+                () -> dto.setDni(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetCiudad_Nulo_Clase2() {
-        dto.setCiudad(null);
+        VerificacionDeExcepcion.rechazar("una ciudad nula", IllegalArgumentException.class,
+                () -> dto.setCiudad(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetCalle_Nulo_Clase2() {
-        dto.setCalle(null);
+        VerificacionDeExcepcion.rechazar("una calle nula", IllegalArgumentException.class,
+                () -> dto.setCalle(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetTelefono_Nulo_Clase2() {
-        dto.setTelefono(null);
+        VerificacionDeExcepcion.rechazar("un telefono nulo", IllegalArgumentException.class,
+                () -> dto.setTelefono(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetNombre_Vacio_Clase3() {
-        dto.setNombre("");
+        VerificacionDeExcepcion.rechazar("un nombre vacio", IllegalArgumentException.class,
+                () -> dto.setNombre(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetApellido_Vacio_Clase3() {
-        dto.setApellido("");
+        VerificacionDeExcepcion.rechazar("un apellido vacio", IllegalArgumentException.class,
+                () -> dto.setApellido(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetDni_Vacio_Clase3() {
-        dto.setDni("");
+        VerificacionDeExcepcion.rechazar("un dni vacio", IllegalArgumentException.class,
+                () -> dto.setDni(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetCiudad_Vacio_Clase3() {
-        dto.setCiudad("");
+        VerificacionDeExcepcion.rechazar("una ciudad vacia", IllegalArgumentException.class,
+                () -> dto.setCiudad(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetCalle_Vacio_Clase3() {
-        dto.setCalle("");
+        VerificacionDeExcepcion.rechazar("una calle vacia", IllegalArgumentException.class,
+                () -> dto.setCalle(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetTelefono_Vacio_Clase3() {
-        dto.setTelefono("");
+        VerificacionDeExcepcion.rechazar("un telefono vacio", IllegalArgumentException.class,
+                () -> dto.setTelefono(""));
     }
 
     /** Valor límite: 0 está dentro del dominio del SRS (numero >= 0). */
     @Test
     public void testSetNumero_LimiteCero_Clase4() {
-        dto.setNumero(0);
+        VerificacionDeExcepcion.aceptar("el numero 0, limite inferior del dominio del SRS",
+                () -> dto.setNumero(0));
         assertEquals("El numero 0 deberia ser aceptado segun el SRS", 0, dto.getNumero());
     }
 
@@ -137,13 +150,15 @@ public class AsociadoDTOTest {
     }
 
     /** Valor límite: -1 está justo fuera del dominio del SRS (numero >= 0). */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetNumero_NegativoUno_Clase5() {
-        dto.setNumero(-1);
+        VerificacionDeExcepcion.rechazar("un numero negativo", IllegalArgumentException.class,
+                () -> dto.setNumero(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetNumero_Minimo_Clase5() {
-        dto.setNumero(Integer.MIN_VALUE);
+        VerificacionDeExcepcion.rechazar("el minimo entero", IllegalArgumentException.class,
+                () -> dto.setNumero(Integer.MIN_VALUE));
     }
 }

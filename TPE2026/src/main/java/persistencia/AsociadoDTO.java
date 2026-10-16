@@ -49,50 +49,58 @@ public class AsociadoDTO implements Serializable {
     }
 
     public void setNombre(String nombre) {
-        assert nombre != null;
+        validarTexto(nombre, "nombre");
         this.nombre = nombre;
     }
     public String getApellido() {
         return apellido;
     }
     public void setApellido(String apellido) {
-        assert  apellido != null;
+        validarTexto(apellido, "apellido");
         this.apellido = apellido;
     }
     public String getDni() {
         return dni;
     }
     public void setDni(String dni) {
-        assert dni != null;
+        validarTexto(dni, "dni");
         this.dni = dni;
     }
     public String getCiudad() {
         return ciudad;
     }
     public void setCiudad(String ciudad) {
-        assert ciudad != null;
+        validarTexto(ciudad, "ciudad");
         this.ciudad = ciudad;
     }
     public String getCalle() {
         return calle;
     }
     public void setCalle(String calle) {
-        assert calle != null;
+        validarTexto(calle, "calle");
         this.calle = calle;
     }
     public int getNumero() {
         return numero;
     }
     public void setNumero(int numero) {
-        assert numero > 0;
+        if (numero < 0) {
+            throw new IllegalArgumentException("El numero no puede ser negativo");
+        }
         this.numero = numero;
     }
     public String getTelefono() {
         return telefono;
     }
     public void setTelefono(String telefono) {
-        assert telefono != null;
+        validarTexto(telefono, "telefono");
         this.telefono = telefono;
+    }
+
+    private static void validarTexto(String valor, String campo) {
+        if (valor == null || valor.isEmpty()) {
+            throw new IllegalArgumentException("El campo " + campo + " no puede ser nulo ni vacio");
+        }
     }
 
 }
