@@ -77,8 +77,7 @@ Son **73 casos**: **69 en verde** y **4 en rojo**, y el build termina en `BUILD 
 ```
 TP-Testing-G11/
 ├── README.md                      este documento
-├── INFORME.md                     informe final del trabajo (fuente)
-├── INFORME.pdf                    informe final del trabajo (PDF)
+├── INFORME.pdf                    informe final del trabajo
 ├── Enunciado_Trabajo_final.pdf    consignas y criterios de entrega
 ├── SRS_Persistencia_Clinica.pdf   requisitos de la capa de persistencia
 ├── evidencia/                     salidas de las corridas y capturas de ejecución
@@ -86,7 +85,7 @@ TP-Testing-G11/
 └── TPE2026/                       proyecto Maven: código y suites de pruebas
 ```
 
-> **Nota sobre los informes:** el informe de este trabajo es `INFORME.md` / `INFORME.pdf`, en la raíz del repositorio. `TPE2026/Informe-Prog-III-original.pdf` es el informe del proyecto original de Programación III que entregó la cátedra: es material provisto, no parte de la entrega.
+> **Nota sobre los informes:** el informe de este trabajo es `INFORME.pdf`, en la raíz del repositorio. `TPE2026/Informe-Prog-III-original.pdf` es el informe del proyecto original de Programación III que entregó la cátedra: es material provisto, no parte de la entrega.
 
 `TPE2026/` contiene el proyecto original de la cátedra (`src/main`) y las suites de pruebas (`src/test/java`):
 
