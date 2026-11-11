@@ -84,7 +84,9 @@ public class BaseDeDatos {
      * @throws SQLException Si ocurre un error al ejecutar la consulta.
      */
     public ResultSet ejecutarConsulta(String consulta, int id) throws SQLException{
-        assert consulta != null;
+        if (consulta == null) {
+            throw new IllegalArgumentException("La consulta no puede ser nula");
+        }
         ResultSet rs = null;
         PreparedStatement stmt = conexion.prepareStatement(consulta);
         if (id != -1) {
@@ -105,8 +107,12 @@ public class BaseDeDatos {
      * @throws SQLException Si ocurre un error al ejecutar la actualización.
      */
     public void ejecutarActualizacion(String actualizacion, AsociadoDTO aDTO) throws SQLException{
-        assert  actualizacion != null;
-        assert aDTO != null;
+        if (actualizacion == null) {
+            throw new IllegalArgumentException("La actualizacion no puede ser nula");
+        }
+        if (aDTO == null) {
+            throw new IllegalArgumentException("El asociado no puede ser nulo");
+        }
         PreparedStatement stmt = conexion.prepareStatement(actualizacion);
         stmt.setString(1, aDTO.getNombre());
         stmt.setString(2, aDTO.getApellido());
@@ -128,8 +134,12 @@ public class BaseDeDatos {
      * @throws SQLException Si ocurre un error al ejecutar la inserción.
      */
     public void ejecutarInsert(String insert, AsociadoDTO aDTO)throws SQLException {
-        assert   insert != null;
-        assert aDTO != null;
+        if (insert == null) {
+            throw new IllegalArgumentException("La sentencia de insercion no puede ser nula");
+        }
+        if (aDTO == null) {
+            throw new IllegalArgumentException("El asociado no puede ser nulo");
+        }
 
         PreparedStatement stmt = conexion.prepareStatement(insert);
         stmt.setString(1, aDTO.getNombre());
@@ -150,8 +160,12 @@ public class BaseDeDatos {
      * @throws SQLException Si ocurre un error al ejecutar la eliminación.
      */
     public void ejecutarDelete(String delete, String dni) throws SQLException{
-        assert   delete != null;
-        assert dni != null;
+        if (delete == null) {
+            throw new IllegalArgumentException("La sentencia de borrado no puede ser nula");
+        }
+        if (dni == null) {
+            throw new IllegalArgumentException("El dni no puede ser nulo");
+        }
 
         PreparedStatement stmt = conexion.prepareStatement(delete);
         stmt.setString(1, dni);

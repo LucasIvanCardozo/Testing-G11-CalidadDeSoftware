@@ -38,7 +38,7 @@ public class DataAccessObjectTest {
     }
 
     @Test
-    public void testGuardarIncorporaElAsociado() throws SQLException {
+    public void testGuardarIncorporaElAsociado_I12() throws SQLException {
         dao.guardar(crearAsociado("Nuevo", "Registro", "90000001", "Rivadavia", 100,
                 "Mar del Plata", "2235000001"));
 
@@ -48,7 +48,7 @@ public class DataAccessObjectTest {
     }
 
     @Test
-    public void testGuardarConDniDuplicadoLanzaSQLException() throws SQLException {
+    public void testGuardarConDniDuplicadoLanzaSQLException_I13() throws SQLException {
         VerificacionDeExcepcion.rechazar("un DNI ya existente", SQLException.class,
                 () -> dao.guardar(crearAsociado("Duplicado", "Registro", DNI_FILA_UNO, "Rivadavia", 100,
                         "Mar del Plata", "2235000002")));
@@ -57,17 +57,17 @@ public class DataAccessObjectTest {
     }
 
     @Test
-    public void testCargarBDevuelveTodaLaSemilla() throws SQLException {
+    public void testCargarBDevuelveTodaLaSemilla_I14() throws SQLException {
         assertEquals(CANTIDAD_SEMILLA, dao.cargarBD().size());
     }
 
     @Test
-    public void testCargarConLimiteDevuelveLaCantidadPedida() throws SQLException {
+    public void testCargarConLimiteDevuelveLaCantidadPedida_I15() throws SQLException {
         assertEquals(5, dao.cargarConLimite(5).size());
     }
 
     @Test
-    public void testCargarDevuelveElAsociadoIndicado() throws SQLException {
+    public void testCargarDevuelveElAsociadoIndicado_I16() throws SQLException {
         AsociadoDTO aDTO = dao.cargar(3);
         assertNotNull("Deberia devolver el asociado del id 3", aDTO);
         assertEquals(DNI_FILA_TRES, aDTO.getDni());
@@ -75,7 +75,7 @@ public class DataAccessObjectTest {
     }
 
     @Test
-    public void testActualizarModificaLaFilaDelDniIndicado() throws SQLException {
+    public void testActualizarModificaLaFilaDelDniIndicado_I17() throws SQLException {
         dao.actualizar(crearAsociado("NombreActualizado", "Observer", DNI_FILA_TRES, "Colon", 456,
                 "Mar del Plata", "2235999999"));
 
@@ -86,15 +86,80 @@ public class DataAccessObjectTest {
     }
 
     @Test
-    public void testEliminarQuitaElAsociadoIndicado() throws SQLException {
+    public void testEliminarQuitaElAsociadoIndicado_I18() throws SQLException {
         dao.eliminar(DNI_FILA_UNO);
         assertEquals(CANTIDAD_SEMILLA - 1, contarAsociados());
     }
 
     @Test
-    public void testEliminarConDniNuloEsRechazado() {
+    public void testEliminarConDniNuloEsRechazado_I19() {
         VerificacionDeExcepcion.rechazar("un DNI nulo", IllegalArgumentException.class,
                 () -> dao.eliminar(null));
+    }
+
+    @Test
+    public void testGuardarConAsociadoNuloEsRechazado_I20() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un asociado nulo", IllegalArgumentException.class,
+                () -> dao.guardar(null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testActualizarConAsociadoNuloEsRechazado_I21() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un asociado nulo", IllegalArgumentException.class,
+                () -> dao.actualizar(null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testCargarConLimiteCeroEsRechazado_I22() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un limite cero", IllegalArgumentException.class,
+                () -> dao.cargarConLimite(0));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testCargarConLimiteNegativoEsRechazado_I23() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un limite negativo", IllegalArgumentException.class,
+                () -> dao.cargarConLimite(-1));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testCargarConIdCeroEsRechazado_I24() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un id cero", IllegalArgumentException.class,
+                () -> dao.cargar(0));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testCargarConIdNegativoEsRechazado_I25() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un id negativo", IllegalArgumentException.class,
+                () -> dao.cargar(-1));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testCrearDTOConAsociadoNuloEsRechazado_I26() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un asociado nulo", IllegalArgumentException.class,
+                () -> dao.CrearDTO((Asociado) null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testGuardarConDniDeOnceCaracteresLanzaSQLException_I32() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un DNI de once caracteres", SQLException.class,
+                () -> dao.guardar(crearAsociado("Nuevo", "Registro", "12345678901", "Rivadavia", 100,
+                        "Mar del Plata", "2235000001")));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
     }
 
     private Asociado crearAsociado(String nombre, String apellido, String dni, String calle,

@@ -29,7 +29,9 @@ public class DataAccessObject {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public void guardar(Asociado asociado) throws SQLException {
-        assert asociado != null : "El asociado no puede ser nulo";
+        if (asociado == null) {
+            throw new IllegalArgumentException("El asociado no puede ser nulo");
+        }
 
         AsociadoDTO aDTO = CrearDTO(asociado);
 
@@ -55,7 +57,9 @@ public class DataAccessObject {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public  ArrayList<AsociadoDTO> cargarConLimite(int limite) throws SQLException {
-        assert limite > 0 : "El limite debe ser mayor que 0";
+        if (limite <= 0) {
+            throw new IllegalArgumentException("El limite debe ser mayor que 0");
+        }
         String query = "SELECT * FROM Asociados LIMIT ? ;";
 
         ResultSet resultado = bd.ejecutarConsulta(query, limite);
@@ -78,7 +82,9 @@ public class DataAccessObject {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public AsociadoDTO cargar(int id) throws SQLException {
-        assert  id > 0 : "El id debe ser mayor que 0";
+        if (id <= 0) {
+            throw new IllegalArgumentException("El id debe ser mayor que 0");
+        }
         String query = "SELECT * FROM Asociados WHERE id = ? ;";
 
         ResultSet resultado = bd.ejecutarConsulta(query, id);
@@ -135,7 +141,9 @@ public class DataAccessObject {
      * @throws SQLException Si ocurre un error al interactuar con la base de datos.
      */
     public void actualizar(Asociado asociado) throws SQLException {
-        assert asociado != null : "El asociado no puede ser nulo";
+        if (asociado == null) {
+            throw new IllegalArgumentException("El asociado no puede ser nulo");
+        }
         String quety = "UPDATE Asociados SET nombre = ?, apellido = ?, dni = ?, calle = ?, numero = ?, ciudad = ?, telefono = ? WHERE dni = ? ;";
         AsociadoDTO aDTO = CrearDTO(asociado);
         bd.ejecutarActualizacion(quety, aDTO);
@@ -149,7 +157,9 @@ public class DataAccessObject {
      * @return Un objeto AsociadoDTO.
      */
     public AsociadoDTO CrearDTO(Asociado asociado) {
-        assert asociado != null : "El asociado no puede ser nulo";
+        if (asociado == null) {
+            throw new IllegalArgumentException("El asociado no puede ser nulo");
+        }
         AsociadoDTO aDTO = new AsociadoDTO();
         aDTO.setNombre(asociado.getNombre());
         aDTO.setApellido(asociado.getApellido());

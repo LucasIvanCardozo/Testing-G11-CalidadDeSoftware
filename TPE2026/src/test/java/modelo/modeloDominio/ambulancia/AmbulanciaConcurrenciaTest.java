@@ -33,7 +33,7 @@ import org.junit.Test;
 public class AmbulanciaConcurrenciaTest {
 
     @Test
-    public void testLosMetodosSincronizadosSeExcluyenEntreHilos() throws Exception {
+    public void testLosMetodosSincronizadosSeExcluyenEntreHilos_C1() throws Exception {
         final Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -69,7 +69,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testUnHiloBloqueadoSeLiberaCuandoTerminaLaSimulacion() throws Exception {
+    public void testUnHiloBloqueadoSeLiberaCuandoTerminaLaSimulacion_C2() throws Exception {
         final Ambulancia ambulancia = new Ambulancia();
         ambulancia.setOcupado(true);
 
@@ -90,7 +90,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testAgregarAsociadosMientrasSeVerificaLaSimulacion() throws Exception {
+    public void testAgregarAsociadosMientrasSeVerificaLaSimulacion_C3() throws Exception {
         final Ambulancia ambulancia = new Ambulancia();
         final Asociado asociado = asociadoTerminado();
         for (int i = 0; i < 500; i++) {
@@ -129,7 +129,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testRetornoAutomaticoInvocaElRetornoConLaSimulacionActiva() {
+    public void testRetornoAutomaticoInvocaElRetornoConLaSimulacionActiva_C4() {
         Ambulancia ambulancia = mock(Ambulancia.class);
         when(ambulancia.isSimulacionActiva()).thenReturn(true);
 
@@ -141,7 +141,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testElRetornoDeTrasladarPacienteVuelveSinPaciente() {
+    public void testElRetornoDeTrasladarPacienteVuelveSinPaciente_C5() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.setState(new TrasladandoPacienteClinicaState(ambulancia));
 
@@ -153,7 +153,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testTrasladoDesdeDisponibleCambiaElEstado() {
+    public void testTrasladoDesdeDisponibleCambiaElEstado_C6() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.setState(new DisponibleState(ambulancia));
 
@@ -165,7 +165,7 @@ public class AmbulanciaConcurrenciaTest {
     }
 
     @Test
-    public void testMantenimientoDesdeDisponibleOcupaLaAmbulancia() {
+    public void testMantenimientoDesdeDisponibleOcupaLaAmbulancia_C7() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.setState(new DisponibleState(ambulancia));
 

@@ -1,4 +1,7 @@
+### Artefactos generados ###
 target/
+Javadoc/
+UML*.png
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

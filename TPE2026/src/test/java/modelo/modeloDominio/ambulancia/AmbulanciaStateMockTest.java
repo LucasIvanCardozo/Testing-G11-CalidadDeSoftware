@@ -24,7 +24,7 @@ import org.junit.Test;
 public class AmbulanciaStateMockTest {
 
     @Test
-    public void testAtenderDomicilioDelegaEnElEstado() {
+    public void testAtenderDomicilioDelegaEnElEstado_M1() {
         Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -35,7 +35,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testTrasladarALaClinicaDelegaEnElEstado() {
+    public void testTrasladarALaClinicaDelegaEnElEstado_M2() {
         Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -46,7 +46,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testSolicitarMantenimientoDelegaEnElEstado() {
+    public void testSolicitarMantenimientoDelegaEnElEstado_M3() {
         Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -57,7 +57,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testRegresarSinPacienteDelegaEnElEstado() {
+    public void testRegresarSinPacienteDelegaEnElEstado_M4() {
         Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -68,7 +68,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testAtenderDomicilioMarcaLaAmbulanciaOcupada() {
+    public void testAtenderDomicilioMarcaLaAmbulanciaOcupada_M5() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.setState(mock(State.class));
 
@@ -78,7 +78,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testAtenderDomicilioNoDelegaSiLaSimulacionNoEstaActiva() {
+    public void testAtenderDomicilioNoDelegaSiLaSimulacionNoEstaActiva_M6() {
         Ambulancia ambulancia = new Ambulancia();
         State estado = mock(State.class);
         ambulancia.setState(estado);
@@ -91,7 +91,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testRetornoAutomaticoNoCambiaElEstadoSiLaAmbulanciaEstaOcupada() {
+    public void testRetornoAutomaticoNoCambiaElEstadoSiLaAmbulanciaEstaOcupada_M7() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.setState(new AtendiendoEnDomicilioState(ambulancia));
         ambulancia.setOcupado(true);
@@ -104,7 +104,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testVerificarYFinalizarSimulacionLaDesactivaSiTodosTerminaron() {
+    public void testVerificarYFinalizarSimulacionLaDesactivaSiTodosTerminaron_M8() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.agregarAsociado(asociadoConSolicitudes(3, 3));
 
@@ -114,7 +114,7 @@ public class AmbulanciaStateMockTest {
     }
 
     @Test
-    public void testVerificarYFinalizarSimulacionLaMantieneSiQuedaAlgunAsociado() {
+    public void testVerificarYFinalizarSimulacionLaMantieneSiQuedaAlgunAsociado_M9() {
         Ambulancia ambulancia = new Ambulancia();
         ambulancia.agregarAsociado(asociadoConSolicitudes(1, 3));
 

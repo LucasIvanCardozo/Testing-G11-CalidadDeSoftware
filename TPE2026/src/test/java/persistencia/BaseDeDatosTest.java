@@ -34,31 +34,31 @@ public class BaseDeDatosTest {
     }
 
     @Test
-    public void testGetInstanciaDevuelveLaMismaReferencia() {
+    public void testGetInstanciaDevuelveLaMismaReferencia_I1() {
         assertSame("El Singleton debe devolver una unica instancia",
                 BaseDeDatos.getInstancia(), BaseDeDatos.getInstancia());
     }
 
     @Test
-    public void testConexionNoEsNula() {
+    public void testConexionNoEsNula_I2() {
         assertNotNull("La conexion debe estar abierta", bd.getConexion());
     }
 
     @Test
-    public void testIniciarBDEstableceLaSemilla() throws SQLException {
+    public void testIniciarBDEstableceLaSemilla_I3() throws SQLException {
         assertEquals("La semilla debe tener 20 registros",
                 CANTIDAD_SEMILLA, contarAsociados());
     }
 
     @Test
-    public void testIniciarBDEsIdempotente() throws SQLException {
+    public void testIniciarBDEsIdempotente_I4() throws SQLException {
         bd.iniciarBD();
         assertEquals("Reiniciar no debe acumular registros",
                 CANTIDAD_SEMILLA, contarAsociados());
     }
 
     @Test
-    public void testEjecutarConsultaConParametroDevuelveLaFilaIndicada() throws SQLException {
+    public void testEjecutarConsultaConParametroDevuelveLaFilaIndicada_I5() throws SQLException {
         ResultSet resultado = bd.ejecutarConsulta("SELECT * FROM Asociados WHERE id = ? ;", 1);
         resultado.next();
         assertEquals("Debe devolver la fila del id 1", "12345678", resultado.getString("dni"));
@@ -67,7 +67,7 @@ public class BaseDeDatosTest {
     }
 
     @Test
-    public void testEjecutarConsultaSobreTablaInexistenteLanzaSQLException() throws SQLException {
+    public void testEjecutarConsultaSobreTablaInexistenteLanzaSQLException_I6() throws SQLException {
         Throwable lanzada = VerificacionDeExcepcion.rechazar("una tabla inexistente", SQLException.class,
                 () -> bd.ejecutarConsulta("SELECT * FROM TablaInexistente ;", -1));
 
@@ -75,7 +75,7 @@ public class BaseDeDatosTest {
     }
 
     @Test
-    public void testEjecutarInsertIncorporaElRegistro() throws SQLException {
+    public void testEjecutarInsertIncorporaElRegistro_I7() throws SQLException {
         bd.ejecutarInsert(consultaInsert(),
                 crearDTO("Nuevo", "Registro", "90000001", "Rivadavia", 100, "Mar del Plata", "2235000001"));
 
@@ -85,7 +85,7 @@ public class BaseDeDatosTest {
     }
 
     @Test
-    public void testEjecutarInsertConDniDuplicadoLanzaSQLException() throws SQLException {
+    public void testEjecutarInsertConDniDuplicadoLanzaSQLException_I8() throws SQLException {
         VerificacionDeExcepcion.rechazar("un DNI ya existente", SQLException.class,
                 () -> bd.ejecutarInsert(consultaInsert(),
                         crearDTO("Duplicado", "Registro", "12345678", "Rivadavia", 100, "Mar del Plata", "2235000002")));
@@ -94,27 +94,90 @@ public class BaseDeDatosTest {
     }
 
     @Test
-    public void testEjecutarDeleteEliminaElRegistroIndicado() throws SQLException {
+    public void testEjecutarDeleteEliminaElRegistroIndicado_I9() throws SQLException {
         bd.ejecutarDelete("DELETE FROM Asociados WHERE dni = ? ;", "12345678");
         assertEquals(CANTIDAD_SEMILLA - 1, contarAsociados());
     }
 
     @Test
-    public void testEjecutarDeleteConDniInexistenteNoEliminaNada() throws SQLException {
+    public void testEjecutarDeleteConDniInexistenteNoEliminaNada_I10() throws SQLException {
         bd.ejecutarDelete("DELETE FROM Asociados WHERE dni = ? ;", "00000000");
         assertEquals(CANTIDAD_SEMILLA, contarAsociados());
     }
 
     @Test
-    public void testEjecutarDeleteTrataElDniComoDatoYNoComoSql() throws SQLException {
+    public void testEjecutarDeleteTrataElDniComoDatoYNoComoSql_I11() throws SQLException {
         bd.ejecutarDelete("DELETE FROM Asociados WHERE dni = ? ;", "' OR '1'='1");
         assertEquals("El valor debe viajar como parametro, no como SQL",
                 CANTIDAD_SEMILLA, contarAsociados());
     }
 
+    @Test
+    public void testEjecutarConsultaConSqlNuloEsRechazado_I27() throws SQLException {
+        VerificacionDeExcepcion.rechazar("una consulta nula", IllegalArgumentException.class,
+                () -> bd.ejecutarConsulta(null, 1));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarActualizacionConSqlNuloEsRechazado_I28() throws SQLException {
+        VerificacionDeExcepcion.rechazar("una actualizacion nula", IllegalArgumentException.class,
+                () -> bd.ejecutarActualizacion(null,
+                        crearDTO("Nuevo", "Registro", "90000001", "Rivadavia", 100, "Mar del Plata", "2235000001")));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarInsertConSqlNuloEsRechazado_I29() throws SQLException {
+        VerificacionDeExcepcion.rechazar("una sentencia de insercion nula", IllegalArgumentException.class,
+                () -> bd.ejecutarInsert(null,
+                        crearDTO("Nuevo", "Registro", "90000001", "Rivadavia", 100, "Mar del Plata", "2235000001")));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarDeleteConSqlNuloEsRechazado_I30() throws SQLException {
+        VerificacionDeExcepcion.rechazar("una sentencia de borrado nula", IllegalArgumentException.class,
+                () -> bd.ejecutarDelete(null, "12345678"));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarDeleteConDniNuloEsRechazado_I31() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un dni nulo", IllegalArgumentException.class,
+                () -> bd.ejecutarDelete("DELETE FROM Asociados WHERE dni = ? ;", null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarActualizacionConAsociadoNuloEsRechazado_I33() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un asociado nulo", IllegalArgumentException.class,
+                () -> bd.ejecutarActualizacion(consultaActualizacion(), null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
+    @Test
+    public void testEjecutarInsertConAsociadoNuloEsRechazado_I34() throws SQLException {
+        VerificacionDeExcepcion.rechazar("un asociado nulo", IllegalArgumentException.class,
+                () -> bd.ejecutarInsert(consultaInsert(), null));
+
+        assertEquals("La tabla no debe cambiar", CANTIDAD_SEMILLA, contarAsociados());
+    }
+
     private String consultaInsert() {
         return "INSERT INTO Asociados(nombre, apellido, DNI, calle, numero, ciudad, telefono) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+    }
+
+    private String consultaActualizacion() {
+        return "UPDATE Asociados SET nombre = ?, apellido = ?, dni = ?, calle = ?, numero = ?, "
+                + "ciudad = ?, telefono = ? WHERE dni = ? ;";
     }
 
     private AsociadoDTO crearDTO(String nombre, String apellido, String dni, String calle,
